@@ -1,9 +1,13 @@
 package application;
 
-import java.util.Comparator;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
+import db.DB;
+import db.DbException;
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
 import model.entities.Department;
@@ -12,6 +16,8 @@ import model.entities.Seller;
 public class Program {
 
 	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
 
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 
@@ -59,7 +65,17 @@ public class Program {
 		seller.setName("Agenor");
 		sellerDao.uptade(seller);
 		System.out.println("Execute update!");
-	
-	}
 
+		// TEST 6:
+
+		System.out.println("\n ====== [SELLER DELETE] ======\n");
+		System.out.print("Enter an Id to delete: ");
+		int id = sc.nextInt();
+		sellerDao.deleteById(id);
+
+		System.out.println("Deleted Id!");
+
+		sc.close();
+
+	}
 }
