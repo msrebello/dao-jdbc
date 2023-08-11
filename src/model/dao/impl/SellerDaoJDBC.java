@@ -99,9 +99,50 @@ public class SellerDaoJDBC implements SellerDao{
 
 	@Override
 	public List<Seller> finAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {	// QUERY
+			ps = conn.prepareStatement(
+					"SELECT seller.*,department.Name as DepName "
+					+ "FROM seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id "
+					+ "ORDER BY Name");
+			
+			rs = ps.executeQuery();
+			
+			List<Seller> sellers = new ArrayList<>();
+			Map<Integer, Department> map = new HashMap<>();
+			
+			while (rs.next()) {
+				
+				// ID REUSE
+				
+				Department dep  = map.get(rs.getInt("DepartmentId"));
+				
+				if (dep == null) {
+					
+					dep = instantiateDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+				
+				Seller sellerObj = instantiateSeller(rs, dep);
+				sellers.add(sellerObj);
+			}
+			
+			return sellers;	
+				
+		} catch (SQLException e) {
+			throw new DbException("## ERROR Caused by: " + e.getMessage());
+		}
+		
+		finally {
+			DB.closeResulSet(rs);
+			DB.closeStatement(ps);
+		}
 	}
+	
 
 	@Override
 	public List<Seller> findByDepartment(Department department) {
@@ -125,6 +166,8 @@ public class SellerDaoJDBC implements SellerDao{
 			Map<Integer, Department> map = new HashMap<>();
 			
 			while (rs.next()) {
+				
+				// ID REUSE
 				
 				Department dep  = map.get(rs.getInt("DepartmentId"));
 				

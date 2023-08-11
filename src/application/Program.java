@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Comparator;
 import java.util.List;
 
 import model.dao.DaoFactory;
@@ -20,6 +21,8 @@ public class Program {
 		Seller seller = sellerDao.findById(3);
 		System.out.println(seller);
 		
+		// TEST 2:
+		
 		System.out.println("\n ====== [SELLER FIND BY DEPARTMENT] ======\n");
 
 		Department department = new Department(1, null);
@@ -28,7 +31,18 @@ public class Program {
 		for (Seller obj : list) {
 			System.out.println(obj);
 		}
+		
+		// TEST 3:
+		
+		System.out.println("\n ====== [SELLER FIND ALL] ======\n");
 
+		list = sellerDao.finAll();
+		
+		for (Seller obj : list) {
+			System.out.println(obj);
+		}
+		
+		// TEST 4:
 
 	}
 
