@@ -1,6 +1,7 @@
 package application;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import model.dao.DaoFactory;
@@ -43,7 +44,13 @@ public class Program {
 		}
 		
 		// TEST 4:
-
+		
+		System.out.println("\n ====== [SELLER INSERT] ======\n");
+		
+		Seller newSeller = new Seller(null, "Catarina", "catarian@gmail.com", new Date(), 2500.00, department); 
+		sellerDao.insert(newSeller);
+		
+		System.out.println("New Seller (ID) = " + newSeller.getId());
 	}
 
 }
